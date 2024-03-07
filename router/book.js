@@ -8,6 +8,12 @@ const upload = multer({ storage })
 //post book
 router.post('/', upload.single("image"), async (req, res) => {
     let fileName;
+    console.log(req.file)
+    const imagesize = ((req.file.size) / (1024 * 1024)).toFixed(2);
+    console.log(imagesize)
+    if (imagesize > 5) {
+        res.status(400).json({ message: 'file should lessthan equal to 5Mb' })
+    }
     if (req.file) {
         fileName = "http://localhost:3000/" + req.file.filename
     } else {
