@@ -96,9 +96,11 @@ router.patch('/:id', upload.single('image'), async (req, res) => {
     try {
 
         const oldData = await Book.findById(req.params.id);
-        // Check if a new image is uploaded
         if (req.file) {
-            // Get the old image path and delete it
+            const imagesize = ((req.file.size) / (1024 * 1024)).toFixed(2);
+            if (imagesize > 5) {
+                res.status(400).json({ message: 'file should lessthan equal to 5Mb' })
+            }
             if (oldData && oldData.imageUrl) {
                 const oldImagePath = oldData.imageUrl.replace('http://localhost:3000/', '');
                 fs.unlink(`./storage/${oldImagePath}`, (err) => {
