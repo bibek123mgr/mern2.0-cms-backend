@@ -15,7 +15,7 @@ router.post('/', upload.single("image"), async (req, res) => {
         res.status(400).json({ message: 'file should lessthan equal to 5Mb' })
     }
     if (req.file) {
-        fileName = "http://localhost:3000/" + req.file.filename
+        fileName = "https://mern2-0-cms-backend.onrender.com/" + req.file.filename
     } else {
         fileName = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
     }
@@ -71,7 +71,7 @@ router.delete('/:id', async (req, res) => {
 
         const book = await Book.findByIdAndDelete(id)
         const oldImagePath = book.imageUrl;
-        const localhostUrlLength = "http://localhost:3000/".length;
+        const localhostUrlLength = "https://mern2-0-cms-backend.onrender.com/".length;
         const newOldImagePath = oldImagePath.slice(localhostUrlLength);
         fs.unlink(`./storage/${newOldImagePath}`, (err) => {
             if (err) {
@@ -102,7 +102,7 @@ router.patch('/:id', upload.single('image'), async (req, res) => {
                 res.status(400).json({ message: 'file should lessthan equal to 5Mb' })
             }
             if (oldData && oldData.imageUrl) {
-                const oldImagePath = oldData.imageUrl.replace('http://localhost:3000/', '');
+                const oldImagePath = oldData.imageUrl.replace('https://mern2-0-cms-backend.onrender.com/', '');
                 fs.unlink(`./storage/${oldImagePath}`, (err) => {
                     if (err) {
                         console.error('Error deleting file:', err);
@@ -113,7 +113,7 @@ router.patch('/:id', upload.single('image'), async (req, res) => {
             }
 
             // Set the new image URL
-            fileName = 'http://localhost:3000/' + req.file.filename;
+            fileName = 'https://mern2-0-cms-backend.onrender.com/' + req.file.filename;
         } else {
             fileName = oldData.imageUrl;
         }

@@ -20,9 +20,13 @@ app.use('/books', require('./router/book'));
 
 app.use(express.static("storage/"))
 
+// app.listen(port, () => {
+//     console.log(`app is listening at http://localhost:${port}`)
+// })
 app.listen(port, () => {
-    console.log(`app is listening at http://localhost:${port}`)
+    console.log(`app is listening at https://mern2-0-cms-backend.onrender.com/`)
 })
+
 
 
 
