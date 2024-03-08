@@ -94,23 +94,26 @@ router.patch('/:id', upload.single('image'), async (req, res) => {
     let fileName;
 
     try {
+
+        const oldData = await Book.findById(req.params.id);
         // Check if a new image is uploaded
         if (req.file) {
             // Get the old image path and delete it
-            const oldData = await Book.findById(req.params.id);
             if (oldData && oldData.imageUrl) {
                 const oldImagePath = oldData.imageUrl.replace('http://localhost:3000/', '');
                 fs.unlink(`./storage/${oldImagePath}`, (err) => {
                     if (err) {
                         console.error('Error deleting file:', err);
                     } else {
-                        console.log('File successfully deleted');
+                        console.log('File successfully deleted old image');
                     }
                 });
             }
 
             // Set the new image URL
             fileName = 'http://localhost:3000/' + req.file.filename;
+        } else {
+            fileName = oldData.imageUrl;
         }
 
         // Update book information
@@ -121,7 +124,7 @@ router.patch('/:id', upload.single('image'), async (req, res) => {
             author,
             publication,
             publishAt,
-            imageUrl: fileName || oldData.imageUrl // Keep the old image URL if no new image is uploaded
+            imageUrl: fileName
         });
 
         if (!updatedBook) {
