@@ -8,13 +8,11 @@ const upload = multer({ storage })
 //post book
 router.post('/', upload.single("image"), async (req, res) => {
     let fileName;
-    console.log(req.file)
-    const imagesize = ((req.file.size) / (1024 * 1024)).toFixed(2);
-    console.log(imagesize)
-    if (imagesize > 5) {
-        res.status(400).json({ message: 'file should lessthan equal to 5Mb' })
-    }
     if (req.file) {
+        const imagesize = ((req.file.size) / (1024 * 1024)).toFixed(2);
+        if (imagesize > 5) {
+            res.status(400).json({ message: 'file should lessthan equal to 5Mb' })
+        }
         fileName = "https://mern2-0-cms-backend.onrender.com/" + req.file.filename
     } else {
         fileName = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
